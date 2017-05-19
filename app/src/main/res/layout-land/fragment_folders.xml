@@ -1,0 +1,40 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragments.FragmentFolders"
+    android:id="@+id/fragment_folderLayout">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="388dp"
+        android:orientation="vertical">
+       <!-- <TextView
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:background="#E4BDAC"
+            android:text="@string/fragment_a1"
+            android:id="@+id/textfolder"
+            android:textSize="36sp"/> -->
+
+        <GridView
+            android:id="@+id/gridviewFragm"
+            android:layout_width="match_parent"
+            android:layout_height="220dp"
+            android:columnWidth="90dp"
+            android:gravity="center"
+            android:layout_marginTop="8dp"
+            android:horizontalSpacing="10dp"
+            android:layout_marginBottom="8dp"
+            android:numColumns="auto_fit"
+            android:stretchMode="columnWidth"
+            android:verticalSpacing="8dp"
+            android:layout_gravity="right|center_vertical"></GridView>
+
+    </LinearLayout>
+    <!-- TODO: Update blank fragment layout -->
+
+
+
+</FrameLayout>

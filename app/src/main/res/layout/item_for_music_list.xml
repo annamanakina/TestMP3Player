@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="60dp">
+
+    <ImageView
+        android:layout_width = "60dp"
+        android:layout_height="60dp"
+        android:id="@+id/imageViewTrack"
+        android:paddingTop="2dp"
+        android:paddingBottom="2dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/icon_music" />
+
+
+    <TextView
+        android:id="@+id/textView_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingTop="4dp"
+        android:layout_marginLeft="8dp"
+        android:layout_toRightOf="@+id/imageViewTrack"
+        android:text="TITLE"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        android:textColor="@color/colorPrimaryText"
+
+        android:layout_toLeftOf="@+id/textView_duration"
+        android:layout_toStartOf="@+id/textView_duration"
+        android:scrollHorizontally="true"
+        android:ellipsize="end"
+        android:maxLines="2"
+        />
+    <TextView
+        android:id="@+id/textView_artist"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingBottom="4dp"
+        android:textSize="12sp"
+        android:text="ARTIST"
+        android:scrollHorizontally="true"
+        android:textColor="@color/colorPrimaryText"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:layout_alignParentBottom="true"
+        android:layout_alignLeft="@+id/textView_title"
+        android:layout_alignStart="@+id/textView_title"
+        android:layout_toLeftOf="@+id/textView_duration"
+        android:layout_toStartOf="@+id/textView_duration" />
+
+    <TextView
+        android:id="@+id/textView_duration"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        android:textColor="@color/colorPrimaryText"
+        android:text="TIME"
+        android:layout_marginRight="4dp"
+        android:paddingBottom="4dp"
+        android:layout_alignTop="@+id/textView_artist"
+        android:layout_alignParentRight="true"
+         />
+
+<TextView
+    android:layout_width="match_parent"
+    android:layout_height="2dp"
+    android:layout_alignParentBottom="true"
+    style="?android:listSeparatorTextViewStyle"/>
+
+</RelativeLayout>

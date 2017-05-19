@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="388dp"
+    android:background="@color/colorLightPrimary"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".fragments.FragmentAlbums"
+    android:id="@+id/fragment_albumsLayout"
+    >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="388dp"
+        android:orientation="vertical">
+        <!-- <TextView
+             android:layout_width="match_parent"
+             android:layout_height="48dp"
+             android:background="#E4BDAC"
+             android:text="@string/fragment_a1"
+             android:id="@+id/textfolder"
+             android:textSize="36sp"/> -->
+
+        <GridView
+            android:id="@+id/gridviewFragm"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:columnWidth="90dp"
+            android:gravity="center"
+            android:layout_marginTop="8dp"
+            android:horizontalSpacing="10dp"
+            android:layout_marginBottom="8dp"
+            android:numColumns="auto_fit"
+            android:stretchMode="columnWidth"
+            android:verticalSpacing="8dp"
+            android:layout_gravity="right|center_vertical"/>
+
+    </LinearLayout>
+
+</FrameLayout>

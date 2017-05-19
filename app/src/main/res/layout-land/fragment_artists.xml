@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="388dp"
+    android:orientation="vertical"
+    android:background="@color/colorLightPrimary"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".fragments.FragmentArtists"
+    android:id="@+id/fragment_artistLayout">
+
+  <ListView
+      android:id="@+id/playlist_artists"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:layout_weight="1">
+
+  </ListView>
+
+  <!--  <TextView
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:text="@string/fragment_a3"
+        android:background="@color/dark_blue"
+        android:id="@+id/textartist"
+        android:textColor="@color/colorAccent"
+        android:textSize="36sp"/> -->
+
+
+
+</LinearLayout>

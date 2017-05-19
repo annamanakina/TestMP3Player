@@ -1,0 +1,36 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="AppMusicTheme">
+
+    </style>
+
+    <!--Theme.Holo.Light -->
+        <style name="MyCustomTheme" parent="@android:style/Theme.Holo.Light">
+            <item name="android:actionBarStyle">@style/MyActionBarTheme</item>
+        </style>
+
+        <style name="MyActionBarTheme" parent="@android:style/Widget.Holo.Light.ActionBar">
+            <item name="android:background">#FF4081</item>
+        </style>
+
+    <style name="AppMusicTheme" parent="Theme.AppCompat.Light.NoActionBar">
+          <item name="android:colorPrimary">@color/colorPrimary</item>
+          <item name="android:colorPrimaryDark">@color/colorPrimaryDark</item>
+          <item name="android:colorAccent">@color/colorAccent</item>
+        
+    </style>
+
+
+
+
+
+
+    <style name = "MediaButton">
+    <item name = "android:layout_width" > wrap_content </item>
+    <item name = "android:layout_height" > 30dp </item>
+    <item name = "android:background" > @drawable/button_state </item>
+    </style>
+
+
+</resources>
