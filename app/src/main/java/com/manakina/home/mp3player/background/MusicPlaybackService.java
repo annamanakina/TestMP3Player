@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.IBinder;
+import android.util.Log;
 
 import com.manakina.home.mp3player.fragments.FragmentSongs;
 import com.manakina.home.mp3player.model.Song;
@@ -84,19 +85,21 @@ public class MusicPlaybackService extends Service {
 
         playbackManager = MusicPlaybackManager.getInstance(getApplicationContext());
         executorService = Executors.newFixedThreadPool(1);
+        //  Log.i("TAG", "Service onCreate " + this.hashCode());
     }
 
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        // Log.i("TAG", "MusicPlaybackService onStartCommand flags: " + flags + ", startId: " + startId);
+        // Log.i("TAG", "Service onStartCommand flags: " + flags + ", startId: " + startId);
         if (intent != null) {
             ArrayList<Song> mSongs = intent.getParcelableArrayListExtra(FragmentSongs.EXTRA_SONG_LIST);
             int mCurrentPosition = intent.getIntExtra(FragmentSongs.EXTRA_POSITION, 0);
             playbackManager.setPlaylist(mSongs, mCurrentPosition);
+
             PlayMusicTaskThread taskThread = new PlayMusicTaskThread();
             isRunning = true;
-            executorService.execute(taskThread); //playbackManager
+            executorService.execute(taskThread);
 
         }
 
@@ -105,6 +108,7 @@ public class MusicPlaybackService extends Service {
 
 
     class PlayMusicTaskThread implements Runnable {
+
         public PlayMusicTaskThread() {
             playbackManager.play();
         }
@@ -116,29 +120,27 @@ public class MusicPlaybackService extends Service {
                     int currentPosition;
                     int duration;
                     do {
+                        Thread.sleep(500);
                             duration = playbackManager.getDuration();
                             currentPosition = playbackManager.getCurrentPosition();
-
-                            if (duration > 0) {
-                                getApplicationContext().sendBroadcast(new Intent(BROADCAST_UPDATE_CONTROLS)
+                        getApplicationContext().sendBroadcast(new Intent(BROADCAST_UPDATE_CONTROLS)
                                         .putExtra(PARAM_RESULT, (int) (currentPosition * 100 / duration)));
-                                Thread.sleep(20);
-                            }
-
-
-
                     } while (currentPosition < duration);
+                } catch (ArithmeticException arithmex) {
+                    //  Log.i("TAG", "Service ArithmeticException - ");
                 } catch (InterruptedException e) {
+                    // Log.i("TAG", "Service InterruptedException - ");
                     e.printStackTrace();
                 }
+
                 stop();
             }
         }
 
         void stop() {
-            Thread.currentThread().interrupt();
             isRunning = false;
             stopSelf();
+            //  Log.i("TAG", "Service run stop");
         }
     }
 
@@ -155,7 +157,7 @@ public class MusicPlaybackService extends Service {
             executorService = null;
         }
         getApplicationContext().unregisterReceiver(mActionReceiver);
-
+        //  Log.i("TAG", "Service (onDestroy) " +this.hashCode());
     }
 
 

@@ -61,7 +61,7 @@ public class MusicPlaybackManager implements IManageMedia, MediaPlayer.OnPrepare
         return false;
     }
 
-    enum AudioState {INIT_MEDIA, PREPARE_MEDIA, PLAY_MEDIA, PAUSE_MEDIA, STOP_MEDIA};
+    enum AudioState {INIT_MEDIA, PREPARE_MEDIA, PLAY_MEDIA, PAUSE_MEDIA, STOP_MEDIA}
     AudioState mState = AudioState.STOP_MEDIA;
 
 
@@ -120,7 +120,8 @@ public class MusicPlaybackManager implements IManageMedia, MediaPlayer.OnPrepare
         mState = AudioState.PREPARE_MEDIA;
         mediaPlayer.start();
         duration = mediaPlayer.getDuration();
-      //  isReady = true;
+        // Log.i("TAG", "onPrepared duration " + duration);
+        //  isReady = true;
         mState = AudioState.PLAY_MEDIA;
     }
 
@@ -228,13 +229,14 @@ public class MusicPlaybackManager implements IManageMedia, MediaPlayer.OnPrepare
 
     public int getCurrentPosition() {
         int currentPosition = 0;
-
         try {
             if (!mState.equals(AudioState.STOP_MEDIA)) {
                 currentPosition = mediaPlayer.getCurrentPosition();
+                Log.i("TAG", "getCurrentPosition() currentPosition - " + currentPosition);
             }
         } catch (IllegalStateException excep){
             currentPosition = mediaPlayer.getCurrentPosition();
+            Log.i("TAG", "getCurrentPosition() IllegalStateException currentPosition " + currentPosition);
             Log.i("TAG", "getCurrentPosition() IllegalStateException " + excep.getMessage());
         }
 
