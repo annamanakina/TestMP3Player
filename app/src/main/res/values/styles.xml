@@ -27,7 +27,7 @@
 
 
     <style name = "MediaButton">
-    <item name = "android:layout_width" > wrap_content </item>
+        <item name="android:layout_width">30dp</item>
     <item name = "android:layout_height" > 30dp </item>
     <item name = "android:background" > @drawable/button_state </item>
     </style>

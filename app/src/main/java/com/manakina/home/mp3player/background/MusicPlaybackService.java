@@ -27,6 +27,7 @@ public class MusicPlaybackService extends Service {
     public static final String ACTION_PLAY = "action_play";*/
 
     public static final String EXTRA_SONG = "extra_song";
+    public static final String EXTRA_SEEKBAR = "extra_seekbar";
     public static final String ACTION_CHANGE = "action_change";
 
     public final static String PARAM_RESULT = "result";
@@ -37,6 +38,7 @@ public class MusicPlaybackService extends Service {
     public static final int PAUSE_SONG = 1;
     public static final int PLAY_SONG = 2;
     public static final int NEXT_SONG = 3;
+    public static final int SEEK_TO = 4;
 
 
     private ExecutorService executorService;
@@ -75,6 +77,12 @@ public class MusicPlaybackService extends Service {
                     case NEXT_SONG:
                         playbackManager.nextSong();
                      //   Log.i("TAG", "BroadcastReceiver action - nextSong");
+                        break;
+
+                    case SEEK_TO:
+
+                        playbackManager.seekTo(intent.getIntExtra(EXTRA_SEEKBAR, DEFAULT));
+                        // Log.i("TAG", "BroadcastReceiver action - seekTo " + intent.getIntExtra(EXTRA_SEEKBAR, DEFAULT));
                         break;
 
 
@@ -119,15 +127,15 @@ public class MusicPlaybackService extends Service {
 
                     int currentPosition;
                     int duration;
+
                     do {
-                        Thread.sleep(500);
+                        Thread.sleep(100);
                             duration = playbackManager.getDuration();
                             currentPosition = playbackManager.getCurrentPosition();
                         getApplicationContext().sendBroadcast(new Intent(BROADCAST_UPDATE_CONTROLS)
-                                        .putExtra(PARAM_RESULT, (int) (currentPosition * 100 / duration)));
+                                .putExtra(PARAM_RESULT, currentPosition));
+                        //putExtra(PARAM_RESULT, (int) (currentPosition * 100 / duration)))
                     } while (currentPosition < duration);
-                } catch (ArithmeticException arithmex) {
-                    //  Log.i("TAG", "Service ArithmeticException - ");
                 } catch (InterruptedException e) {
                     // Log.i("TAG", "Service InterruptedException - ");
                     e.printStackTrace();

@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.media.*;
 import android.util.Log;
+import android.widget.SeekBar;
 
 import com.manakina.home.mp3player.interfaces.IManageMedia;
 import com.manakina.home.mp3player.model.Song;
@@ -14,7 +15,8 @@ import java.util.ArrayList;
 import java.util.Random;
 
 
-public class MusicPlaybackManager implements IManageMedia, MediaPlayer.OnPreparedListener, MediaPlayer.OnCompletionListener,
+public class MusicPlaybackManager implements IManageMedia, MediaPlayer.OnPreparedListener,
+        MediaPlayer.OnCompletionListener,
         MediaPlayer.OnErrorListener {
 
 
@@ -23,7 +25,6 @@ public class MusicPlaybackManager implements IManageMedia, MediaPlayer.OnPrepare
     private MediaPlayer mediaPlayer;
     private ArrayList<Song> mSongs;
     private int currentSong;
-    private Song mSong;
 
     private int duration = 0;
 
@@ -61,6 +62,18 @@ public class MusicPlaybackManager implements IManageMedia, MediaPlayer.OnPrepare
         return false;
     }
 
+    public void seekTo(int position) {
+        mediaPlayer.seekTo(position);
+        //  Log.i("TAG", "seekTo position " + position);
+        //   Log.i("TAG", "seekTo getCurrentPosition() " + mediaPlayer.getCurrentPosition());
+    }
+
+    //@Override
+    // public void onSeekComplete(MediaPlayer mp) {
+    //  mediaPlayer.seekTo(currentPosition);
+    //   Log.i("TAG", "onSeekComplete currentPosition " + currentPosition);
+    // }
+
     enum AudioState {INIT_MEDIA, PREPARE_MEDIA, PLAY_MEDIA, PAUSE_MEDIA, STOP_MEDIA}
     AudioState mState = AudioState.STOP_MEDIA;
 
@@ -95,6 +108,7 @@ public class MusicPlaybackManager implements IManageMedia, MediaPlayer.OnPrepare
         mediaPlayer.setAudioStreamType(android.media.AudioManager.STREAM_MUSIC);
         mediaPlayer.setOnPreparedListener(this);
         mediaPlayer.setOnCompletionListener(this);
+        // mediaPlayer.setOnSeekCompleteListener(this);
         if (isRepeat) {
             mediaPlayer.setLooping(true);
         } else {
@@ -232,11 +246,11 @@ public class MusicPlaybackManager implements IManageMedia, MediaPlayer.OnPrepare
         try {
             if (!mState.equals(AudioState.STOP_MEDIA)) {
                 currentPosition = mediaPlayer.getCurrentPosition();
-                Log.i("TAG", "getCurrentPosition() currentPosition - " + currentPosition);
+                //  Log.i("TAG", "getCurrentPosition() currentPosition - " + currentPosition);
             }
         } catch (IllegalStateException excep){
             currentPosition = mediaPlayer.getCurrentPosition();
-            Log.i("TAG", "getCurrentPosition() IllegalStateException currentPosition " + currentPosition);
+            // Log.i("TAG", "getCurrentPosition() IllegalStateException currentPosition " + currentPosition);
             Log.i("TAG", "getCurrentPosition() IllegalStateException " + excep.getMessage());
         }
 
@@ -247,8 +261,7 @@ public class MusicPlaybackManager implements IManageMedia, MediaPlayer.OnPrepare
 
     public void releaseMedia() {
         if (mediaPlayer != null) {
-           mediaPlayer.stop();
-          //  mediaPlayer.reset();
+            mediaPlayer.stop();
             mState = AudioState.STOP_MEDIA;
             mediaPlayer.release();
             mediaPlayer = null;

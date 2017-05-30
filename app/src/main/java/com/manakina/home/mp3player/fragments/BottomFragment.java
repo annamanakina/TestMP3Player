@@ -21,7 +21,9 @@ import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import com.manakina.home.mp3player.MainActivity;
 import com.manakina.home.mp3player.R;
+import com.manakina.home.mp3player.SongActivity;
 import com.manakina.home.mp3player.background.MusicPlaybackManager;
 import com.manakina.home.mp3player.background.MusicPlaybackService;
 import com.manakina.home.mp3player.model.Song;
@@ -30,6 +32,7 @@ import com.manakina.home.mp3player.model.Song;
 
 public class BottomFragment extends Fragment {
 
+    public static final String EXTRA_PLAYLIST = "PlayList";
 
     private LinearLayout mSongLayout;
     private ImageView mImageView;
@@ -40,6 +43,7 @@ public class BottomFragment extends Fragment {
     //for updating seekbar
     private Handler mHandler = new Handler();
     private int mSeekBarPosition;
+
 
 
     public BottomFragment() {
@@ -58,6 +62,7 @@ public class BottomFragment extends Fragment {
         public void onReceive(Context context, Intent intent) {
             if (intent.getAction().equals(MusicPlaybackService.BROADCAST_UPDATE_CONTROLS)) {
                 mSeekBarPosition = intent.getIntExtra(MusicPlaybackService.PARAM_RESULT, MusicPlaybackService.DEFAULT);
+                Log.i("TAG", "BottomFragment onReceive mSeekBarPosition - " + mSeekBarPosition);
                 if (mSeekBarPosition > MusicPlaybackService.DEFAULT) {
                   //  Log.i("TAG", "BottomFragment onReceive mSeekBarPosition - " + mSeekBarPosition);
                     mHandler.post(updateProgress);
@@ -99,6 +104,7 @@ public class BottomFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
+
     }
 
 
@@ -130,24 +136,31 @@ public class BottomFragment extends Fragment {
     private void initSeekBar(View view) {
         mSeekBar = (SeekBar) view.findViewById(R.id.seekbar);
         mSeekBar.setVisibility(SeekBar.VISIBLE);
-        mSeekBar.setMax(100);
+        mSeekBar.setMax(0);
         mSeekBar.setProgress(0);
         mSeekBar.getProgressDrawable().setColorFilter(getResources().getColor(R.color.colorPrimary), PorterDuff.Mode.SRC_IN);
         mSeekBar.getThumb().setColorFilter(getResources().getColor(R.color.colorAccent), PorterDuff.Mode.SRC_IN);
         mSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                //  Log.i("TAG", "BottomFragment onProgressChanged - " + progress);
 
             }
 
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
-
+                // Log.i("TAG", "BottomFragment onStartTrackingTouch - " + seekBar.getProgress());
             }
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
+                mSeekBar.setProgress(seekBar.getProgress());
+                getActivity().sendBroadcast(new Intent(MusicPlaybackService.BROADCAST_ACTION)
+                        .putExtra(MusicPlaybackService.ACTION_CHANGE, MusicPlaybackService.SEEK_TO)
+                        .putExtra(MusicPlaybackService.EXTRA_SEEKBAR, seekBar.getProgress())
+                );
 
+                //  Log.i("TAG", "BottomFragment onStopTrackingTouch - " + seekBar.getProgress());
             }
         });
 
@@ -186,20 +199,28 @@ public class BottomFragment extends Fragment {
 
     private void initOtherControls(View view) {
         mSongLayout = (LinearLayout) view.findViewById(R.id.song_layout);
-        mSongLayout.setOnClickListener(new View.OnClickListener() {
+       /* mSongLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //startActivity(new Intent(MainActivity.this, SongActivity.class).putExtra("PlayList", mMusicManager.getPlaybackSongs()));
+
+            }
+        });*/
+        mImageView = (ImageView) view.findViewById(R.id.imageViewSong);
+        mImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getActivity(), SongActivity.class)
+                        .putExtra(EXTRA_PLAYLIST, MusicPlaybackManager.getInstance(getActivity()).getPlaybackSongs()));
             }
         });
-        mImageView = (ImageView) view.findViewById(R.id.imageViewSong);
+
         mTitle = (TextView) view.findViewById(R.id.textviewTitle);
     }
 
 
     public void updateControls(final Song song) {
         // Log.i("TAG", "BottomFragment updateControls end" + song.getTitle());
-
+        mSeekBar.setMax(song.getDuration());
         mTitle.setText(new StringBuilder().append(song.getArtist()).append("\r\n").append(song.getTitle()));
         mPlayPauseButton.setImageResource(R.drawable.ic_action_pause);
     }

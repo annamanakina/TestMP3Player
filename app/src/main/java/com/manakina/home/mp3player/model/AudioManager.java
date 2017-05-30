@@ -344,6 +344,16 @@ public class AudioManager {
 
         Folder folder = null;
         int id = 0;
+
+
+        //ConcurrentModificationException
+        /*Iterator<String> iter = myArrayList.iterator();
+       while (iter.hasNext()) {
+       String str = iter.next();
+       if (someCondition)
+        iter.remove();}*/
+
+
         for (Song song : mSongs) {
             String pathToFolder = cutString(song.getPath());
             if (isFolderExist(pathToFolder)) {

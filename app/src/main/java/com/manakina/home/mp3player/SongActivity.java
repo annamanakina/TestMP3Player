@@ -12,6 +12,8 @@ import com.manakina.home.mp3player.fragments.SongFragment;
 
 //activity for fragment with one song item
 public class SongActivity extends AppCompatActivity {
+    private SongFragment songFragment;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,13 +23,15 @@ public class SongActivity extends AppCompatActivity {
       //  ArrayList<Song> list = getIntent().getParcelableArrayListExtra("PlayList");
         if (savedInstanceState == null) {
             initFragmentScreen();
+        } else {
+            songFragment = (SongFragment) getSupportFragmentManager().findFragmentByTag("SongFragment");
         }
     }
 
 
     private void initFragmentScreen() {
         // Creating the ViewPager container fragment once
-        SongFragment songFragment = new SongFragment();
+        songFragment = new SongFragment();
         final FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction()
                 .replace(R.id.fragment_song_container, songFragment, "SongFragment")
